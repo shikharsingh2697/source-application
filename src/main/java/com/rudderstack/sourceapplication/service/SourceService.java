@@ -1,8 +1,6 @@
 package com.rudderstack.sourceapplication.service;
 
-import com.rudderstack.sourceapplication.domains.SourceDetails;
-import com.rudderstack.sourceapplication.domains.SourceFormTemplateRequest;
-import com.rudderstack.sourceapplication.domains.SourceFormTemplateResponse;
+import com.rudderstack.sourceapplication.domains.*;
 
 import java.util.List;
 
@@ -12,4 +10,6 @@ public interface SourceService {
     public SourceFormTemplateResponse fetchSourceFormTemplate(String sourceType);
 
     public List<SourceDetails> fetchAllSourceTypes();
+
+    public SourceResponse createSource(SourceRequest sourceRequest, Long userId);
 }

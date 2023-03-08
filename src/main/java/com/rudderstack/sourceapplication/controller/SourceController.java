@@ -1,8 +1,6 @@
 package com.rudderstack.sourceapplication.controller;
 
-import com.rudderstack.sourceapplication.domains.SourceDetails;
-import com.rudderstack.sourceapplication.domains.SourceFormTemplateRequest;
-import com.rudderstack.sourceapplication.domains.SourceFormTemplateResponse;
+import com.rudderstack.sourceapplication.domains.*;
 import com.rudderstack.sourceapplication.service.SourceService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,13 @@ public class SourceController {
     @GetMapping("/source-form-templates/source-types")
     public List<SourceDetails> getAllSourceTypes() {
         return sourceService.fetchAllSourceTypes();
+    }
+
+    @PostMapping("/sources")
+    public SourceResponse addSource(@RequestHeader(value = "userId") Long userId,
+                                    @RequestBody @Valid SourceRequest request) {
+
+        return sourceService.createSource(request, userId);
     }
 
 }
