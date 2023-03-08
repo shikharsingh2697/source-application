@@ -1,5 +1,6 @@
 package com.rudderstack.sourceapplication.controller;
 
+import com.rudderstack.sourceapplication.domains.SourceDetails;
 import com.rudderstack.sourceapplication.domains.SourceFormTemplateRequest;
 import com.rudderstack.sourceapplication.domains.SourceFormTemplateResponse;
 import com.rudderstack.sourceapplication.service.SourceService;
@@ -31,6 +32,11 @@ public class SourceController {
     @GetMapping("/source-form-templates")
     public SourceFormTemplateResponse getSourceFormTemplate(@RequestParam(value = "type") String type) {
         return sourceService.fetchSourceFormTemplate(type);
+    }
+
+    @GetMapping("/source-form-templates/source-types")
+    public List<SourceDetails> getAllSourceTypes() {
+        return sourceService.fetchAllSourceTypes();
     }
 
 }

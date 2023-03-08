@@ -3,6 +3,7 @@ package com.rudderstack.sourceapplication.service;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rudderstack.sourceapplication.domains.FieldDetails;
+import com.rudderstack.sourceapplication.domains.SourceDetails;
 import com.rudderstack.sourceapplication.domains.SourceFormTemplateRequest;
 import com.rudderstack.sourceapplication.domains.SourceFormTemplateResponse;
 import com.rudderstack.sourceapplication.entity.SourceFormTemplateEntity;
@@ -18,7 +19,10 @@ import com.rudderstack.sourceapplication.utils.ObjectMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class SourceServiceImpl implements SourceService{
@@ -59,6 +63,15 @@ public class SourceServiceImpl implements SourceService{
     public SourceFormTemplateResponse fetchSourceFormTemplate(String sourceType){
         SourceFormTemplateEntity sourceFormTemplateEntity = sourceFormTemplateRepository.findByType(sourceType).orElseThrow(() -> new ResourceNotFoundException("Source type not found"));
         return sourceMapper.mapSourceFormTemplateResponse(sourceFormTemplateEntity);
+    }
+
+    public List<SourceDetails> fetchAllSourceTypes(){
+        List<SourceDetails> sourceDetails = new ArrayList<>();
+        List<String> sourceTypes = sourceFormTemplateRepository.findAll().stream().map(SourceFormTemplateEntity::getType).collect(Collectors.toList());
+        for(String sourceType : sourceTypes){
+            sourceDetails.add(new SourceDetails(sourceType, sourceType));
+        }
+        return sourceDetails;
     }
 }
 
