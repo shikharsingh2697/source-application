@@ -40,8 +40,6 @@ public class SourceController {
     @PostMapping("/sources")
     public SourceResponse addSource(@RequestHeader(value = "userId") Long userId,
                                     @RequestBody @Valid SourceRequest request) {
-
         return sourceService.createSource(request, userId);
     }
-
 }
