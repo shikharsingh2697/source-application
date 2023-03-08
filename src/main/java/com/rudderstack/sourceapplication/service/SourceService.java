@@ -8,4 +8,5 @@ import java.util.List;
 public interface SourceService {
     public SourceFormTemplateResponse createSourceFormTemplate(SourceFormTemplateRequest sourceFormTemplateRequest, Long userId);
 
+    public SourceFormTemplateResponse fetchSourceFormTemplate(String sourceType);
 }

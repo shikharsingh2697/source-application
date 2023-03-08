@@ -55,5 +55,10 @@ public class SourceServiceImpl implements SourceService{
         sourceFormTemplateRepository.saveAndFlush(sourceFormTemplateEntity);
         return sourceMapper.mapSourceFormTemplateResponse(sourceFormTemplateEntity);
     }
+
+    public SourceFormTemplateResponse fetchSourceFormTemplate(String sourceType){
+        SourceFormTemplateEntity sourceFormTemplateEntity = sourceFormTemplateRepository.findByType(sourceType).orElseThrow(() -> new ResourceNotFoundException("Source type not found"));
+        return sourceMapper.mapSourceFormTemplateResponse(sourceFormTemplateEntity);
+    }
 }
 

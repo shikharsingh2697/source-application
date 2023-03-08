@@ -28,4 +28,9 @@ public class SourceController {
         return sourceService.createSourceFormTemplate(request, userId);
     }
 
+    @GetMapping("/source-form-templates")
+    public SourceFormTemplateResponse getSourceFormTemplate(@RequestParam(value = "type") String type) {
+        return sourceService.fetchSourceFormTemplate(type);
+    }
+
 }
