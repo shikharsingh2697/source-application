@@ -16,6 +16,8 @@ import com.rudderstack.sourceapplication.service.validators.ElementValidator;
 import com.rudderstack.sourceapplication.utils.FormElementUtil;
 import com.rudderstack.sourceapplication.utils.ObjectMapperUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class SourceServiceImpl implements SourceService{
         this.sourceFormTemplateRepository = sourceFormTemplateRepository;
         this.userRepository = userRepository;
     }
-
+    @CacheEvict(value = "sourceCache", key = "'sourceTypes'")
     public SourceFormTemplateResponse createSourceFormTemplate(SourceFormTemplateRequest sourceFormTemplateRequest, Long userId){
         UserEntity userEntity = userRepository.findById(userId).orElseThrow( () -> new ResourceNotFoundException("Invalid User"));
         if(!userEntity.isAdmin()){
@@ -60,12 +62,12 @@ public class SourceServiceImpl implements SourceService{
         sourceFormTemplateRepository.saveAndFlush(sourceFormTemplateEntity);
         return sourceMapper.mapSourceFormTemplateResponse(sourceFormTemplateEntity);
     }
-
+    @Cacheable(value = "sourceCache", key = "#sourceType")
     public SourceFormTemplateResponse fetchSourceFormTemplate(String sourceType){
         SourceFormTemplateEntity sourceFormTemplateEntity = sourceFormTemplateRepository.findByType(sourceType).orElseThrow(() -> new ResourceNotFoundException("Source type not found"));
         return sourceMapper.mapSourceFormTemplateResponse(sourceFormTemplateEntity);
     }
-
+    @Cacheable(value = "sourceCache", key = "'sourceTypes'")
     public List<SourceDetails> fetchAllSourceTypes(){
         List<SourceDetails> sourceDetails = new ArrayList<>();
         List<String> sourceTypes = sourceFormTemplateRepository.findAll().stream().map(SourceFormTemplateEntity::getType).collect(Collectors.toList());

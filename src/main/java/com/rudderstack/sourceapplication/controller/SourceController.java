@@ -38,6 +38,7 @@ public class SourceController {
     }
 
     @PostMapping("/sources")
+    @ResponseStatus(HttpStatus.CREATED)
     public SourceResponse addSource(@RequestHeader(value = "userId") Long userId,
                                     @RequestBody @Valid SourceRequest request) {
         return sourceService.createSource(request, userId);
